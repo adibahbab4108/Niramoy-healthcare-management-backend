@@ -1,68 +1,85 @@
 model User {
-    id                 String     @id @default(uuid())
-    email              String     @unique
-    password           String
-    role               UserRole   @default(PATIENT)
-    needPasswordChange Boolean    @default(true)
-    status             UserStatus @default(ACTIVE)
-    createdAt          DateTime   @default(now())
-    updatedAt          DateTime   @updatedAt
-    admin              Admin?
-    doctor             Doctor?
-    patient            Patient?
+  id                 String   @id @default(uuid())
+  email              String   @unique
+  name               String?
+  password           String
+  needPasswordChange Boolean  @default(false)
+  role               UserRole @default(PATIENT)
+  status             String   @default("ACTIVE")
 
-    @@map("users")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  admin     Admin?
+  doctor    Doctor?
+  patient   Patient?
+
+  @@map("users")
 }
 
 model Admin {
-    id            String   @id @default(uuid())
-    name          String
-    email         String   @unique
-    profilePhoto  String?
-    contactNumber String
-    isDeleted     Boolean  @default(false)
-    createdAt     DateTime @default(now())
-    updatedAt     DateTime @updatedAt
+  id                 String   @id @default(uuid())
+  email              String   @unique
+  name               String?
+  password           String
+  needPasswordChange Boolean  @default(false)
+  role               UserRole @default(ADMIN)
+  status             String   @default("ACTIVE")
+  isDeleted          Boolean  @default(false)
+  profilePhoto       String?
+  contactNumber      String?
+  address            String?
 
-    user User @relation(fields: [email], references: [email])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    @@map("admins")
+  user User @relation(fields: [email], references: [email])
+
+  @@map("admins")
 }
 
 model Doctor {
-    id                  String   @id @default(uuid())
-    name                String
-    email               String   @unique
-    profilePhoto        String?
-    contactNumber       String
-    address             String
-    registrationNumber  String
-    experience          Int      @default(0)
-    gender              Gender
-    appointmentFee      Int
-    qualification       String
-    currentWorkingPlace String
-    designation         String
-    isDeleted           Boolean  @default(false)
-    createdAt           DateTime @default(now())
-    updatedAt           DateTime @updatedAt
+  id                 String   @id @default(uuid())
+  email              String   @unique
+  name               String?
+  password           String
+  needPasswordChange Boolean  @default(false)
+  role               UserRole @default(DOCTOR)
+  status             String   @default("ACTIVE")
+  isDeleted          Boolean  @default(false)
+  profilePhoto       String?
+  contactNumber      String?
+  address            String?
+  registrationNumber String?
+  qualification      String?
+  experienceYears    Int?
+  gender             Gender
+  appointmentFee     Float?
+  currentWorkplace   String?
+  designation        String
 
-    user User @relation(fields: [email], references: [email])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-    @@map("doctors")
+  user User @relation(fields: [email], references: [email])
+
+  @@map("doctors")
 }
 
 model Patient {
-    id           String   @id @default(uuid())
-    email        String   @unique
-    name         String
-    profilePhoto String?
-    address      String
-    isDeleted    Boolean  @default(false)
-    createdAt    DateTime @default(now())
-    updatedAt    DateTime @updatedAt
+  id                 String    @id @default(uuid())
+  email              String    @unique
+  name               String?
+  password           String
+  needPasswordChange Boolean   @default(false)
+  role               UserRole  @default(PATIENT)
+  status             String    @default("ACTIVE")
+  isDeleted          Boolean   @default(false)
+  profilePhoto       String?
+  contactNumber      String?
+  address            String?
+  dateOfBirth        DateTime?
 
-    user User @relation(fields: [email], references: [email])
+  user User @relation(fields: [email], references: [email])
 
-    @@map("patients")
+  @@map("patients")
 }
