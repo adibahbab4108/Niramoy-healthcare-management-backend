@@ -4,6 +4,12 @@ enum UserRole {
   ADMIN
 }
 
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  DELETED
+}
+
 enum Gender {
   MALE
   FEMALE
