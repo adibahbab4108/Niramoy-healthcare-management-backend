@@ -2,8 +2,8 @@ import { NextFunction, Request, Response, Router } from "express";
 import { UserController } from "./user.controller";
 import { fileUploader } from "../../helper/fileUploader";
 import { UserValidation } from "./user.validation";
-import { UserRole } from "@prisma/client";
 import auth from "../../middlewares/auth";
+import { UserRole } from "../../../../prisma/generated/prisma/enums";
 
 const router = Router();
 router.get(
@@ -35,7 +35,7 @@ router.post(
 
 router.post(
     "/create-doctor",
-    // auth(UserRole.ADMIN),
+    auth(UserRole.ADMIN),
     fileUploader.upload.single('file'),
     (req: Request, res: Response, next: NextFunction) => {
         console.log(JSON.parse(req.body.data))

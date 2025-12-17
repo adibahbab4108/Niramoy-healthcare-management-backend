@@ -1,10 +1,15 @@
 import bcrypt from "bcryptjs";
-import { Admin, Doctor, Prisma, UserRole } from "@prisma/client";
-import { prisma } from "../../shared/prisma";
 import { Request } from "express";
 import { fileUploader } from "../../helper/fileUploader";
 import { userSearchableFields } from "./user.constant";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
+import { prisma } from "../../lib/prisma";
+import {
+  Admin,
+  Doctor,
+  Prisma,
+  UserRole,
+} from "../../../../prisma/generated/prisma/client";
 
 const createPatient = async (request: Request) => {
   const payload = request.body;
@@ -63,17 +68,19 @@ const createAdmin = async (req: Request): Promise<Admin> => {
     role: UserRole.ADMIN,
   };
 
-  const result = await prisma.$transaction(async (transactionClient) => {
-    await transactionClient.user.create({
-      data: userData,
-    });
+  const result = await prisma.$transaction(
+    async (transactionClient: Prisma.TransactionClient) => {
+      await transactionClient.user.create({
+        data: userData,
+      });
 
-    const createdAdminData = await transactionClient.admin.create({
-      data: req.body.admin,
-    });
+      const createdAdminData = await transactionClient.admin.create({
+        data: req.body.admin,
+      });
 
-    return createdAdminData;
-  });
+      return createdAdminData;
+    }
+  );
 
   return result;
 };
@@ -92,17 +99,19 @@ const createDoctor = async (req: Request): Promise<Doctor> => {
     role: UserRole.DOCTOR,
   };
 
-  const result = await prisma.$transaction(async (transactionClient) => {
-    await transactionClient.user.create({
-      data: userData,
-    });
+  const result = await prisma.$transaction(
+    async (transactionClient: Prisma.TransactionClient) => {
+      await transactionClient.user.create({
+        data: userData,
+      });
 
-    const createdDoctorData = await transactionClient.doctor.create({
-      data: req.body.doctor,
-    });
+      const createdDoctorData = await transactionClient.doctor.create({
+        data: req.body.doctor,
+      });
 
-    return createdDoctorData;
-  });
+      return createdDoctorData;
+    }
+  );
 
   return result;
 };

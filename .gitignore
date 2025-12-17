@@ -11,3 +11,5 @@ dist
 /src/generated/prisma
 
 /src/generated/prisma
+
+/generated/prisma

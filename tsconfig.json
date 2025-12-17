@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "target": "es2023",
+    "module": "esnext",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,5 +12,5 @@
     "rootDir": ".",            // include repo root -> prevents TS6059 for prisma.config.ts
     "types": []
   },
-  "include": ["src/**/*", "prisma/**/*"]
+  // "include": ["src/**/*", "prisma/**/*"]
 }
