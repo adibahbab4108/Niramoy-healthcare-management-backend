@@ -1,10 +1,10 @@
 import bcrypt from "bcryptjs";
-import { Admin, Doctor, Prisma, UserRole } from "@prisma/client";
-import { prisma } from "../../shared/prisma";
 import { Request } from "express";
 import { fileUploader } from "../../helper/fileUploader";
 import { userSearchableFields } from "./user.constant";
 import { IOptions, paginationHelper } from "../../helper/paginationHelper";
+import { Admin, Doctor, Prisma, UserRole } from "../../../../prisma/generated/prisma/client";
+import { prisma } from "../../lib/prisma";
 
 const createPatient = async (request: Request) => {
   const payload = request.body;
@@ -63,7 +63,7 @@ const createAdmin = async (req: Request): Promise<Admin> => {
     role: UserRole.ADMIN,
   };
 
-  const result = await prisma.$transaction(async (transactionClient) => {
+  const result = await prisma.$transaction(async (transactionClient: Prisma.TransactionClient) => {
     await transactionClient.user.create({
       data: userData,
     });
@@ -92,7 +92,7 @@ const createDoctor = async (req: Request): Promise<Doctor> => {
     role: UserRole.DOCTOR,
   };
 
-  const result = await prisma.$transaction(async (transactionClient) => {
+  const result = await prisma.$transaction(async (transactionClient: Prisma.TransactionClient) => {
     await transactionClient.user.create({
       data: userData,
     });
@@ -138,8 +138,8 @@ const getAllFromDB = async (params: any, options: IOptions) => {
   const whereConditions: Prisma.UserWhereInput =
     andConditions.length > 0
       ? {
-          AND: andConditions,
-        }
+        AND: andConditions,
+      }
       : {};
 
   const result = await prisma.user.findMany({

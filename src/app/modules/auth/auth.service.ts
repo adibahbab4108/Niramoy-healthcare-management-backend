@@ -1,8 +1,9 @@
-import { UserStatus } from "@prisma/client";
-import { prisma } from "../../shared/prisma";
+
 import bcrypt from "bcryptjs";
 import { jwtHelper } from "../../helper/jwtHelper";
 import { envVar } from "../../../config/env.config";
+import { prisma } from "../../lib/prisma";
+import { UserStatus } from "../../../../prisma/generated/prisma/enums";
 
 const login = async (payload: { email: string; password: string }) => {
   const user = await prisma.user.findUniqueOrThrow({
