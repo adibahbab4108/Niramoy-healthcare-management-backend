@@ -1,43 +1,41 @@
 import { Server } from "http";
 import { envVar } from "./config/env.config";
 import app from "./app";
+import connectDB from "./config/db.config";
 
 async function bootstrap() {
-  // This variable will hold our server instance
-  let server: Server;
+  let server: Server | undefined;
 
   try {
-    // Start the server
-    server = app.listen(envVar.port, () => {
-      console.log(`🚀 Server is running on http://localhost:${envVar.port}`);
+    await connectDB()
+    server = app.listen(envVar.PORT, () => {
+      console.log(`🚀 Server running at http://localhost:${envVar.PORT}`);
     });
 
-    // Function to gracefully shut down the server
     const exitHandler = () => {
       if (server) {
         server.close(() => {
           console.log("Server closed gracefully.");
-          process.exit(1); // Exit with a failure code
+          process.exit(0);
         });
       } else {
-        process.exit(1);
+        process.exit(0);
       }
     };
 
-    // Handle unhandled promise rejections
+    process.on("SIGTERM", exitHandler);
+    process.on("SIGINT", exitHandler);
+
     process.on("unhandledRejection", (error) => {
-      console.log(
-        "Unhandled Rejection is detected, we are closing our server..."
-      );
-      if (server) {
-        server.close(() => {
-          console.log(error);
-          process.exit(1);
-        });
-      } else {
-        process.exit(1);
-      }
+      console.error("Unhandled Rejection:", error);
+      exitHandler();
     });
+
+    process.on("uncaughtException", (error) => {
+      console.error("Uncaught Exception:", error);
+      process.exit(1);
+    });
+
   } catch (error) {
     console.error("Error during server startup:", error);
     process.exit(1);

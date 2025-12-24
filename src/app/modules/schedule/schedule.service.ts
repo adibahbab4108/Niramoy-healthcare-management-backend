@@ -1,22 +1,16 @@
-import { addMinutes, addHours, format } from "date-fns";
-import { IOptions, paginationHelper } from "../../helper/paginationHelper";
+import { paginationHelper } from "../../helper/paginationHelper";
 import { prisma } from "../../lib/prisma";
 import { Prisma } from "../../../../prisma/generated/prisma/client";
 import { IJWTPayload } from "../../types/common";
-import { generateSlots, Slot } from "../../helper/generateTimeSlot";
+import { timeSlotHelper } from "../../helper/generateTimeSlot";
 
 
-const insertIntoDB = async (payload: any) => {
-    const { startTime, endTime, startDate: startDateStr, endDate: endDateStr } = payload;
-
-    // Convert string dates to Date objects if they're strings (adjust based on your payload type)
-    const startDate = new Date(startDateStr);
-    const endDate = new Date(endDateStr);
-
+const insertIntoDB = async (payload: TimeSlotPayload) => {
+    const { startTime, endTime, startDate, endDate } = payload;
     const intervalTime = 30; // minutes
 
-    // Generate ALL slots across the entire date range in one go
-    const allSlots: Slot[] = generateSlots({
+    // 1. Generate all desired slots for the date range
+    const allSlots: TimeSlot[] = timeSlotHelper.generateTimeSlots({
         startTime,
         endTime,
         startDate,
@@ -24,42 +18,78 @@ const insertIntoDB = async (payload: any) => {
         intervalTime,
     });
 
-    const schedules = [];
-
-    // Insert non-existing slots into DB
-    for (const slot of allSlots) {
-        const scheduleData = {
-            startDateTime: slot.start,
-            endDateTime: slot.end,
-        };
-
-        const existingSchedule = await prisma.schedule.findFirst({
-            where: {
-                startDateTime: scheduleData.startDateTime,
-                endDateTime: scheduleData.endDateTime,
-            },
-        });
-
-        if (!existingSchedule) {
-            const result = await prisma.schedule.create({
-                data: scheduleData,
-            });
-            schedules.push(result);
-        }
+    if (allSlots.length === 0) {
+        return [];
     }
 
-    return schedules;
+    // 2. Extract the start/end pairs to check against DB
+    const desiredSlotPairs = allSlots.map(slot => ({
+        startDateTime: slot.slotStart,
+        endDateTime: slot.slotEnd,
+    }));
+
+    // await prisma.schedule.deleteMany({});
+    // return
+
+    // 3. Find which of these slots ALREADY exist in the database
+    const existingSlots = await prisma.schedule.findMany({
+        where: {
+            OR: desiredSlotPairs.map(pair => ({
+                startDateTime: pair.startDateTime,
+                endDateTime: pair.endDateTime,
+            })),
+        },
+        select: {
+            startDateTime: true,
+            endDateTime: true,
+        },
+    });
+
+    // 4. Create a Set of existing slot identifiers for fast lookup
+    const existingSlotKeySet = new Set(
+        existingSlots.map(slot =>
+            `${slot.startDateTime.toISOString()}|${slot.endDateTime.toISOString()}`
+        )
+    );
+
+    // 5. Filter only the NEW slots that don't exist yet
+    const newSlotsToInsert = desiredSlotPairs.filter(
+        slot =>
+            !existingSlotKeySet.has(
+                `${slot.startDateTime.toISOString()}|${slot.endDateTime.toISOString()}`
+            )
+    );
+
+    // 6. Bulk insert only the missing ones (safe even if called multiple times)
+    if (newSlotsToInsert.length > 0) {
+        await prisma.schedule.createMany({
+            data: newSlotsToInsert,
+            skipDuplicates: true, // extra safety
+        });
+    }
+
+    // 7. Return all slots in the requested range (existing + newly created)
+    return await prisma.schedule.findMany({
+        where: {
+            OR: desiredSlotPairs.map(s => ({
+                startDateTime: s.startDateTime,
+                endDateTime: s.endDateTime,
+            })),
+        },
+        orderBy: {
+            startDateTime: 'asc',
+        },
+    });
 };
 
 
 const schedulesForDoctor = async (
     user: IJWTPayload,
-    fillters: any,
+    filters: any,
     options: IOptions
 ) => {
     const { page, limit, skip, sortBy, sortOrder } = paginationHelper.calculatePagination(options);
-    const { startDateTime: filterStartDateTime, endDateTime: filterEndDateTime } = fillters;
-
+    const { startDateTime: filterStartDateTime, endDateTime: filterEndDateTime } = filters;
     const andConditions: Prisma.ScheduleWhereInput[] = [];
 
     if (filterStartDateTime && filterEndDateTime) {
@@ -132,6 +162,7 @@ const schedulesForDoctor = async (
 
 
 const deleteScheduleFromDB = async (id: string) => {
+
     return await prisma.schedule.delete({
         where: {
             id

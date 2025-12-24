@@ -7,6 +7,7 @@ model Schedule {
 
     scheduleDoctors doctorSchedule[]
 
+    @@unique([startDateTime, endDateTime])
     @@map("schedules")
 }
 

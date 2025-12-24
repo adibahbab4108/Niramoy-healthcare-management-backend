@@ -9,7 +9,8 @@ import { envVar } from "./config/env.config";
 const app: Application = express();
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: true,
     credentials: true,
   })
 );
@@ -19,16 +20,16 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/v1", router);
-
 app.get("/", (req: Request, res: Response) => {
   res.send({
     message: "Server is running..",
-    environment: envVar.node_env,
+    environment: envVar.NODE_ENV,
     uptime: process.uptime().toFixed(2) + " sec",
     timeStamp: new Date().toISOString(),
   });
 });
+
+app.use("/api/v1", router);
 
 app.use(globalErrorHandler);
 

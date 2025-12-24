@@ -8,18 +8,17 @@ const router = express.Router();
 
 router.get(
     "/",
-    auth(UserRole.DOCTOR, UserRole.DOCTOR),
+    auth(UserRole.DOCTOR),
     ScheduleController.schedulesForDoctor
 )
-
 router.post(
     "/",
     ScheduleController.insertIntoDB
 )
 
-
 router.delete(
     "/:id",
+    auth(UserRole.DOCTOR), // or other appropriate role(s)
     ScheduleController.deleteScheduleFromDB
 )
 export const ScheduleRoutes = router;

@@ -1,49 +1,52 @@
-interface GenerateSlotsParams {
-    startTime: string;
-    endTime: string;
-    startDate: Date;
-    endDate: Date;
-    intervalTime: number; // in minutes
-}
+function generateTimeSlots(payload: TimeSlotPayload): TimeSlot[] {
+    const { startDate, endDate, startTime, endTime, intervalTime } = payload;
 
-export interface Slot {
-    start: Date;
-    end: Date;
-}
+    const slots: TimeSlot[] = [];
 
-export function generateSlots({
-    startTime,
-    endTime,
-    startDate,
-    endDate,
-    intervalTime,
-}: GenerateSlotsParams): Slot[] {
-    const slots: Slot[] = [];
-    // Parse startTime
-    const [startHour, startMinute] = startTime.split(":").map(Number);
-    const slotStart = new Date(startDate);
-    slotStart.setHours(startHour, startMinute, 0, 0);
+    // Parse start and end dates
+    const currentDate = new Date(startDate);
+    const lastDate = new Date(endDate);
 
-    // Parse endTime
-    const [endHour, endMinute] = endTime.split(":").map(Number);
-    const finalEnd = new Date(endDate);
-    finalEnd.setHours(endHour, endMinute, 0, 0);
+    // Extract hours and minutes from startTime and endTime
+    const [startHour, startMinute] = startTime.split(':').map(Number);
+    const [endHour, endMinute] = endTime.split(':').map(Number);
 
-    let currentStart = new Date(slotStart);
+    while (currentDate <= lastDate) {
+        // Set the daily start time (e.g., 2026-12-10T09:00:00)
+        const dayStart = new Date(currentDate);
+        dayStart.setHours(startHour, startMinute, 0, 0);
 
-    while (currentStart < finalEnd) {
-        const currentEnd = new Date(currentStart);
-        currentEnd.setMinutes(currentEnd.getMinutes() + intervalTime);
+        // Set the daily end time (e.g., 2026-12-10T17:30:00)
+        const dayEnd = new Date(currentDate);
+        dayEnd.setHours(endHour, endMinute, 0, 0);
 
-        if (currentEnd > finalEnd) break;
+        // If dayEnd is before dayStart (e.g., endTime = 02:00 next day), add 1 day
+        if (dayEnd <= dayStart) {
+            dayEnd.setDate(dayEnd.getDate() + 1);
+        }
 
-        slots.push({
-            start: new Date(currentStart),
-            end: new Date(currentEnd),
-        });
+        let current = new Date(dayStart);
 
-        currentStart = currentEnd;
+        while (true) {
+            const slotEnd = new Date(current);
+            slotEnd.setMinutes(slotEnd.getMinutes() + intervalTime);
+
+            if (slotEnd > dayEnd) break;
+
+            slots.push({
+                slotStart: new Date(current),
+                slotEnd: new Date(slotEnd),
+            });
+
+            current = slotEnd;
+        }
+
+        // Move to next day
+        currentDate.setDate(currentDate.getDate() + 1);
     }
 
     return slots;
+}
+export const timeSlotHelper = {
+    generateTimeSlots,
 }

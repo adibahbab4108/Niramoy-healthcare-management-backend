@@ -4,9 +4,9 @@ import path from "path";
 dotenv.config({ path: path.join(process.cwd(), ".env") });
 
 export const envVar = {
-  node_env: process.env.NODE_ENV,
-  port: process.env.PORT,
-  database_url: process.env.DATABASE_URL as string,
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
+  DATABASE_URL: process.env.DATABASE_URL as string,
 
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
   CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
