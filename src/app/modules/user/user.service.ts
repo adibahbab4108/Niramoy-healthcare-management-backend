@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { Request } from "express";
 import { fileUploader } from "../../helper/fileUploader";
 import { userSearchableFields } from "./user.constant";
-import { IOptions, paginationHelper } from "../../helper/paginationHelper";
+import { paginationHelper } from "../../helper/paginationHelper";
 import { Admin, Doctor, Prisma, UserRole } from "../../../../prisma/generated/prisma/client";
 import { prisma } from "../../lib/prisma";
 
@@ -19,7 +19,6 @@ const createPatient = async (request: Request) => {
 
   console.log("Payload:", payload, "File", file);
   const hashedPassword = await bcrypt.hash(payload.password, 10);
-  console.log(hashedPassword);
 
   if (file) {
     const uploadResult = await fileUploader.uploadToCloudinary(file);

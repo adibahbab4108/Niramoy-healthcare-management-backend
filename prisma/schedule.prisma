@@ -5,13 +5,13 @@ model Schedule {
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
 
-    scheduleDoctors doctorSchedule[]
+    scheduleDoctors DoctorSchedules[]
 
-    @@unique([startDateTime, endDateTime])
+    // @@unique([startDateTime, endDateTime])
     @@map("schedules")
 }
 
-model doctorSchedule {
+model DoctorSchedules {
     doctorId String
     doctor   Doctor @relation(fields: [doctorId], references: [id])
 

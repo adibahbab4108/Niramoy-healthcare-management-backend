@@ -30,6 +30,7 @@ const login = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
 export const AuthController = {
   login,
 };

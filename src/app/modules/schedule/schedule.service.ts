@@ -1,8 +1,8 @@
 import { paginationHelper } from "../../helper/paginationHelper";
 import { prisma } from "../../lib/prisma";
-import { Prisma } from "../../../../prisma/generated/prisma/client";
 import { IJWTPayload } from "../../types/common";
 import { timeSlotHelper } from "../../helper/generateTimeSlot";
+import { Prisma } from "../../../../prisma/generated/prisma/client";
 
 
 const insertIntoDB = async (payload: TimeSlotPayload) => {
@@ -47,7 +47,7 @@ const insertIntoDB = async (payload: TimeSlotPayload) => {
 
     // 4. Create a Set of existing slot identifiers for fast lookup
     const existingSlotKeySet = new Set(
-        existingSlots.map(slot =>
+        existingSlots.map((slot: { startDateTime: { toISOString: () => any; }; endDateTime: { toISOString: () => any; }; }) =>
             `${slot.startDateTime.toISOString()}|${slot.endDateTime.toISOString()}`
         )
     );
@@ -82,7 +82,6 @@ const insertIntoDB = async (payload: TimeSlotPayload) => {
     });
 };
 
-
 const schedulesForDoctor = async (
     user: IJWTPayload,
     filters: any,
@@ -114,7 +113,7 @@ const schedulesForDoctor = async (
     } : {}
 
 
-    const doctorSchedules = await prisma.doctorSchedule.findMany({
+    const doctorSchedules = await prisma.doctorSchedules.findMany({
         where: {
             doctor: {
                 email: user.email

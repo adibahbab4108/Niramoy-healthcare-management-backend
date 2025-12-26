@@ -3,11 +3,9 @@ function generateTimeSlots(payload: TimeSlotPayload): TimeSlot[] {
 
     const slots: TimeSlot[] = [];
 
-    // Parse start and end dates
     const currentDate = new Date(startDate);
     const lastDate = new Date(endDate);
 
-    // Extract hours and minutes from startTime and endTime
     const [startHour, startMinute] = startTime.split(':').map(Number);
     const [endHour, endMinute] = endTime.split(':').map(Number);
 

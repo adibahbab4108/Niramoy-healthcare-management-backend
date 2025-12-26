@@ -385,7 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Schedule: 'Schedule',
-  doctorSchedule: 'doctorSchedule',
+  DoctorSchedules: 'DoctorSchedules',
   User: 'User',
   Admin: 'Admin',
   Doctor: 'Doctor',
@@ -405,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "schedule" | "doctorSchedule" | "user" | "admin" | "doctor" | "patient"
+    modelProps: "schedule" | "doctorSchedules" | "user" | "admin" | "doctor" | "patient"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -483,77 +483,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    doctorSchedule: {
-      payload: Prisma.$doctorSchedulePayload<ExtArgs>
-      fields: Prisma.doctorScheduleFieldRefs
+    DoctorSchedules: {
+      payload: Prisma.$DoctorSchedulesPayload<ExtArgs>
+      fields: Prisma.DoctorSchedulesFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.doctorScheduleFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload> | null
+          args: Prisma.DoctorSchedulesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.doctorScheduleFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload>
+          args: Prisma.DoctorSchedulesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload>
         }
         findFirst: {
-          args: Prisma.doctorScheduleFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload> | null
+          args: Prisma.DoctorSchedulesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.doctorScheduleFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload>
+          args: Prisma.DoctorSchedulesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload>
         }
         findMany: {
-          args: Prisma.doctorScheduleFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload>[]
+          args: Prisma.DoctorSchedulesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload>[]
         }
         create: {
-          args: Prisma.doctorScheduleCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload>
+          args: Prisma.DoctorSchedulesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload>
         }
         createMany: {
-          args: Prisma.doctorScheduleCreateManyArgs<ExtArgs>
+          args: Prisma.DoctorSchedulesCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.doctorScheduleCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload>[]
+          args: Prisma.DoctorSchedulesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload>[]
         }
         delete: {
-          args: Prisma.doctorScheduleDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload>
+          args: Prisma.DoctorSchedulesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload>
         }
         update: {
-          args: Prisma.doctorScheduleUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload>
+          args: Prisma.DoctorSchedulesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload>
         }
         deleteMany: {
-          args: Prisma.doctorScheduleDeleteManyArgs<ExtArgs>
+          args: Prisma.DoctorSchedulesDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.doctorScheduleUpdateManyArgs<ExtArgs>
+          args: Prisma.DoctorSchedulesUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.doctorScheduleUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload>[]
+          args: Prisma.DoctorSchedulesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload>[]
         }
         upsert: {
-          args: Prisma.doctorScheduleUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$doctorSchedulePayload>
+          args: Prisma.DoctorSchedulesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DoctorSchedulesPayload>
         }
         aggregate: {
-          args: Prisma.DoctorScheduleAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateDoctorSchedule>
+          args: Prisma.DoctorSchedulesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDoctorSchedules>
         }
         groupBy: {
-          args: Prisma.doctorScheduleGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DoctorScheduleGroupByOutputType>[]
+          args: Prisma.DoctorSchedulesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DoctorSchedulesGroupByOutputType>[]
         }
         count: {
-          args: Prisma.doctorScheduleCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DoctorScheduleCountAggregateOutputType> | number
+          args: Prisma.DoctorSchedulesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DoctorSchedulesCountAggregateOutputType> | number
         }
       }
     }
@@ -903,7 +903,7 @@ export const ScheduleScalarFieldEnum = {
 export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
 
 
-export const DoctorScheduleScalarFieldEnum = {
+export const DoctorSchedulesScalarFieldEnum = {
   doctorId: 'doctorId',
   scheduleId: 'scheduleId',
   isBooked: 'isBooked',
@@ -911,7 +911,7 @@ export const DoctorScheduleScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type DoctorScheduleScalarFieldEnum = (typeof DoctorScheduleScalarFieldEnum)[keyof typeof DoctorScheduleScalarFieldEnum]
+export type DoctorSchedulesScalarFieldEnum = (typeof DoctorSchedulesScalarFieldEnum)[keyof typeof DoctorSchedulesScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -1208,7 +1208,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   schedule?: Prisma.ScheduleOmit
-  doctorSchedule?: Prisma.doctorScheduleOmit
+  doctorSchedules?: Prisma.DoctorSchedulesOmit
   user?: Prisma.UserOmit
   admin?: Prisma.AdminOmit
   doctor?: Prisma.DoctorOmit
