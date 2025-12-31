@@ -5,45 +5,87 @@ import { userSearchableFields } from "./user.constant";
 import { paginationHelper } from "../../helper/paginationHelper";
 import { Admin, Doctor, Prisma, UserRole } from "../../../../prisma/generated/prisma/client";
 import { prisma } from "../../lib/prisma";
+import { envVar } from "../../../config/env.config";
 
-const createPatient = async (request: Request) => {
-  const payload = request.body;
-  const file = request.file;
-  const isExistingUser = await prisma.user.findUnique({
-    where: { email: payload.patient.email },
-  });
+// const createPatient = async (req: Request) => {
+//   const { user: userData, patient: patientData } = req.body as CreatePatientPayload;
+//   const file = req.file; // from multer
 
-  if (isExistingUser) {
-    throw new Error("User with this email already exists");
+//   // 1. Validate required fields
+//   if (!userData?.email || !userData?.password) {
+//     throw new Error('Email and password are required');
+//   }
+
+//   // 2. Check if user already exists
+//   const existingUser = await prisma.user.findUnique({
+//     where: { email: userData.email },
+//   });
+
+//   if (existingUser) {
+//     throw new Error('User with this email already exists');
+//   }
+
+//   const hashedPassword = await bcrypt.hash(
+//     userData.password,
+//     Number(envVar.BCRYPT_SALT_ROUND)
+//   );
+
+//   let profilePhotoUrl: string | undefined | null = patientData.profilePhoto || null
+
+//   if (file) {
+//     const uploadResult = await fileUploader.uploadToCloudinary(file);
+//     if (uploadResult?.secure_url) {
+//       profilePhotoUrl = uploadResult.secure_url;
+//     }
+//   }
+
+//   const result = await prisma.user.create({
+//     data: {
+//       email: userData.email,
+//       password: hashedPassword,
+//       role: UserRole.PATIENT,
+//       phone: userData.phone || null,
+//       gender: userData.gender || null,
+
+//       patient: {
+//         create: {
+//           name: patientData.name || null,
+//           address: patientData.address || null,
+//           profilePhoto: profilePhotoUrl || null,
+//         },
+//       },
+//     },
+//     include: {
+//       patient: true,
+//     },
+//   });
+
+//   return result;
+// };
+const createPatient = async (req: Request) => {
+
+  if (req.file) {
+    const uploadResult = await fileUploader.uploadToCloudinary(req.file)
+    req.body.patient.profilePhoto = uploadResult?.secure_url
   }
 
-  console.log("Payload:", payload, "File", file);
-  const hashedPassword = await bcrypt.hash(payload.password, 10);
+  const hashPassword = await bcrypt.hash(req.body.password, 10);
 
-  if (file) {
-    const uploadResult = await fileUploader.uploadToCloudinary(file);
-    payload.patient.profilePhoto = uploadResult?.secure_url;
-  }
+  const result = await prisma.$transaction(async (tnx) => {
+    await tnx.user.create({
+      data: {
+        email: req.body.patient.email,
+        password: hashPassword
+      }
+    });
+    
+    return await tnx.patient.create({
+      data: req.body.patient
+    })
+  })
 
-  const result = await prisma.$transaction(
-    async (tnx: Prisma.TransactionClient) => {
-      const user = await tnx.user.create({
-        data: {
-          email: payload.patient.email,
-          password: hashedPassword,
-        },
-      });
-      const patient = await tnx.patient.create({
-        data: payload.patient,
-      });
-      return {
-        user,
-        patient,
-      };
-    }
-  );
   return result;
-};
+}
 
 const createAdmin = async (req: Request): Promise<Admin> => {
   const file = req.file;
