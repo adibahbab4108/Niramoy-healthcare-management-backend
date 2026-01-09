@@ -52,7 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Schedule: 'Schedule',
-  DoctorSchedule: 'DoctorSchedule',
+  DoctorSchedules: 'DoctorSchedules',
+  Specialties: 'Specialties',
+  DoctorSpecialties: 'DoctorSpecialties',
   User: 'User',
   Admin: 'Admin',
   Doctor: 'Doctor',
@@ -86,7 +88,7 @@ export const ScheduleScalarFieldEnum = {
 export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
 
 
-export const DoctorScheduleScalarFieldEnum = {
+export const DoctorSchedulesScalarFieldEnum = {
   doctorId: 'doctorId',
   scheduleId: 'scheduleId',
   isBooked: 'isBooked',
@@ -94,7 +96,24 @@ export const DoctorScheduleScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type DoctorScheduleScalarFieldEnum = (typeof DoctorScheduleScalarFieldEnum)[keyof typeof DoctorScheduleScalarFieldEnum]
+export type DoctorSchedulesScalarFieldEnum = (typeof DoctorSchedulesScalarFieldEnum)[keyof typeof DoctorSchedulesScalarFieldEnum]
+
+
+export const SpecialtiesScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  icon: 'icon'
+} as const
+
+export type SpecialtiesScalarFieldEnum = (typeof SpecialtiesScalarFieldEnum)[keyof typeof SpecialtiesScalarFieldEnum]
+
+
+export const DoctorSpecialtiesScalarFieldEnum = {
+  specialitiesId: 'specialitiesId',
+  doctorId: 'doctorId'
+} as const
+
+export type DoctorSpecialtiesScalarFieldEnum = (typeof DoctorSpecialtiesScalarFieldEnum)[keyof typeof DoctorSpecialtiesScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

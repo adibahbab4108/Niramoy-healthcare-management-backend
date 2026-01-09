@@ -168,7 +168,7 @@ export type PatientGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type PatientGroupByOutputType = {
   id: string
   email: string
-  name: string | null
+  name: string
   profilePhoto: string | null
   address: string | null
   isDeleted: boolean
@@ -200,7 +200,7 @@ export type PatientWhereInput = {
   NOT?: Prisma.PatientWhereInput | Prisma.PatientWhereInput[]
   id?: Prisma.StringFilter<"Patient"> | string
   email?: Prisma.StringFilter<"Patient"> | string
-  name?: Prisma.StringNullableFilter<"Patient"> | string | null
+  name?: Prisma.StringFilter<"Patient"> | string
   profilePhoto?: Prisma.StringNullableFilter<"Patient"> | string | null
   address?: Prisma.StringNullableFilter<"Patient"> | string | null
   isDeleted?: Prisma.BoolFilter<"Patient"> | boolean
@@ -212,7 +212,7 @@ export type PatientWhereInput = {
 export type PatientOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrder
   profilePhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
@@ -227,7 +227,7 @@ export type PatientWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PatientWhereInput | Prisma.PatientWhereInput[]
   OR?: Prisma.PatientWhereInput[]
   NOT?: Prisma.PatientWhereInput | Prisma.PatientWhereInput[]
-  name?: Prisma.StringNullableFilter<"Patient"> | string | null
+  name?: Prisma.StringFilter<"Patient"> | string
   profilePhoto?: Prisma.StringNullableFilter<"Patient"> | string | null
   address?: Prisma.StringNullableFilter<"Patient"> | string | null
   isDeleted?: Prisma.BoolFilter<"Patient"> | boolean
@@ -239,7 +239,7 @@ export type PatientWhereUniqueInput = Prisma.AtLeast<{
 export type PatientOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
-  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  name?: Prisma.SortOrder
   profilePhoto?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
@@ -256,7 +256,7 @@ export type PatientScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PatientScalarWhereWithAggregatesInput | Prisma.PatientScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Patient"> | string
   email?: Prisma.StringWithAggregatesFilter<"Patient"> | string
-  name?: Prisma.StringNullableWithAggregatesFilter<"Patient"> | string | null
+  name?: Prisma.StringWithAggregatesFilter<"Patient"> | string
   profilePhoto?: Prisma.StringNullableWithAggregatesFilter<"Patient"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"Patient"> | string | null
   isDeleted?: Prisma.BoolWithAggregatesFilter<"Patient"> | boolean
@@ -266,7 +266,7 @@ export type PatientScalarWhereWithAggregatesInput = {
 
 export type PatientCreateInput = {
   id?: string
-  name?: string | null
+  name: string
   profilePhoto?: string | null
   address?: string | null
   isDeleted?: boolean
@@ -278,7 +278,7 @@ export type PatientCreateInput = {
 export type PatientUncheckedCreateInput = {
   id?: string
   email: string
-  name?: string | null
+  name: string
   profilePhoto?: string | null
   address?: string | null
   isDeleted?: boolean
@@ -288,7 +288,7 @@ export type PatientUncheckedCreateInput = {
 
 export type PatientUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -300,7 +300,7 @@ export type PatientUpdateInput = {
 export type PatientUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -311,7 +311,7 @@ export type PatientUncheckedUpdateInput = {
 export type PatientCreateManyInput = {
   id?: string
   email: string
-  name?: string | null
+  name: string
   profilePhoto?: string | null
   address?: string | null
   isDeleted?: boolean
@@ -321,7 +321,7 @@ export type PatientCreateManyInput = {
 
 export type PatientUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -332,7 +332,7 @@ export type PatientUpdateManyMutationInput = {
 export type PatientUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -412,7 +412,7 @@ export type PatientUncheckedUpdateOneWithoutUserNestedInput = {
 
 export type PatientCreateWithoutUserInput = {
   id?: string
-  name?: string | null
+  name: string
   profilePhoto?: string | null
   address?: string | null
   isDeleted?: boolean
@@ -422,7 +422,7 @@ export type PatientCreateWithoutUserInput = {
 
 export type PatientUncheckedCreateWithoutUserInput = {
   id?: string
-  name?: string | null
+  name: string
   profilePhoto?: string | null
   address?: string | null
   isDeleted?: boolean
@@ -448,7 +448,7 @@ export type PatientUpdateToOneWithWhereWithoutUserInput = {
 
 export type PatientUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -458,7 +458,7 @@ export type PatientUpdateWithoutUserInput = {
 
 export type PatientUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
   profilePhoto?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -534,7 +534,7 @@ export type $PatientPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     email: string
-    name: string | null
+    name: string
     profilePhoto: string | null
     address: string | null
     isDeleted: boolean

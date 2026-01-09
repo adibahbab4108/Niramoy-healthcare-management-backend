@@ -30,6 +30,23 @@ CREATE TABLE "doctor_schedules" (
 );
 
 -- CreateTable
+CREATE TABLE "specialties" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "icon" TEXT NOT NULL,
+
+    CONSTRAINT "specialties_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "doctor_specialties" (
+    "specialitiesId" TEXT NOT NULL,
+    "doctorId" TEXT NOT NULL,
+
+    CONSTRAINT "doctor_specialties_pkey" PRIMARY KEY ("specialitiesId","doctorId")
+);
+
+-- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -46,10 +63,10 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "admins" (
     "id" TEXT NOT NULL,
-    "name" TEXT,
+    "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "profilePhoto" TEXT,
-    "contactNumber" TEXT,
+    "contactNumber" TEXT NOT NULL,
     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -60,10 +77,10 @@ CREATE TABLE "admins" (
 -- CreateTable
 CREATE TABLE "doctors" (
     "id" TEXT NOT NULL,
-    "name" TEXT,
+    "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "profilePhoto" TEXT,
-    "contactNumber" TEXT,
+    "contactNumber" TEXT NOT NULL,
     "address" TEXT NOT NULL,
     "registrationNumber" TEXT NOT NULL,
     "experience" INTEGER NOT NULL DEFAULT 0,
@@ -83,7 +100,7 @@ CREATE TABLE "doctors" (
 CREATE TABLE "patients" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "name" TEXT,
+    "name" TEXT NOT NULL,
     "profilePhoto" TEXT,
     "address" TEXT,
     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
@@ -110,6 +127,12 @@ ALTER TABLE "doctor_schedules" ADD CONSTRAINT "doctor_schedules_doctorId_fkey" F
 
 -- AddForeignKey
 ALTER TABLE "doctor_schedules" ADD CONSTRAINT "doctor_schedules_scheduleId_fkey" FOREIGN KEY ("scheduleId") REFERENCES "schedules"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "doctor_specialties" ADD CONSTRAINT "doctor_specialties_specialitiesId_fkey" FOREIGN KEY ("specialitiesId") REFERENCES "specialties"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "doctor_specialties" ADD CONSTRAINT "doctor_specialties_doctorId_fkey" FOREIGN KEY ("doctorId") REFERENCES "doctors"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "admins" ADD CONSTRAINT "admins_email_fkey" FOREIGN KEY ("email") REFERENCES "users"("email") ON DELETE RESTRICT ON UPDATE CASCADE;

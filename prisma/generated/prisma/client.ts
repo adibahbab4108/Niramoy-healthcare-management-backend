@@ -45,10 +45,20 @@ export { Prisma }
  */
 export type Schedule = Prisma.ScheduleModel
 /**
- * Model DoctorSchedule
+ * Model DoctorSchedules
  * 
  */
-export type DoctorSchedule = Prisma.DoctorScheduleModel
+export type DoctorSchedules = Prisma.DoctorSchedulesModel
+/**
+ * Model Specialties
+ * 
+ */
+export type Specialties = Prisma.SpecialtiesModel
+/**
+ * Model DoctorSpecialties
+ * 
+ */
+export type DoctorSpecialties = Prisma.DoctorSpecialtiesModel
 /**
  * Model User
  * 

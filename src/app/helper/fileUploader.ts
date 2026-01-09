@@ -2,7 +2,6 @@ import multer from "multer";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 import { envVar } from "../../config/env.config";
-import fi from "zod/v4/locales/fi.js";
 
 //multer storage configuration
 const storage = multer.diskStorage({

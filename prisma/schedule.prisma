@@ -1,23 +1,26 @@
 model Schedule {
-    id              String           @id @default(uuid())
-    startDateTime   DateTime
-    endDateTime     DateTime
-    createdAt       DateTime         @default(now())
-    updatedAt       DateTime         @updatedAt
-    doctorSchedules DoctorSchedule[]
+    id            String   @id @default(uuid())
+    startDateTime DateTime
+    endDateTime   DateTime
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
 
+    scheduleDoctors DoctorSchedules[]
+
+    // @@unique([startDateTime, endDateTime])
     @@map("schedules")
 }
 
-model DoctorSchedule {
-    doctorId   String
+model DoctorSchedules {
+    doctorId String
+    doctor   Doctor @relation(fields: [doctorId], references: [id])
+
     scheduleId String
+    schedule   Schedule @relation(fields: [scheduleId], references: [id])
     isBooked   Boolean  @default(false)
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
-    doctor     Doctor   @relation(fields: [doctorId], references: [id])
-    schedule   Schedule @relation(fields: [scheduleId], references: [id])
 
-    @@id([doctorId, scheduleId]) //composite primary key
+    @@id([doctorId, scheduleId])
     @@map("doctor_schedules")
 }
