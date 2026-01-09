@@ -10,6 +10,7 @@ import {
   Prisma,
   UserRole,
 } from "../../../../prisma/generated/prisma/client";
+import ApiError from "../../errors/ApiError";
 
 const createPatient = async (request: Request) => {
   const payload = request.body;
@@ -19,7 +20,7 @@ const createPatient = async (request: Request) => {
   });
 
   if (isExistingUser) {
-    throw new Error("User with this email already exists");
+    throw new ApiError("User with this email already exists", 409);
   }
 
   console.log("Payload:", payload, "File", file);

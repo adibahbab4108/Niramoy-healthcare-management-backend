@@ -3,6 +3,7 @@ import { jwtHelper } from "../../helper/jwtHelper";
 import { envVar } from "../../../config/env.config";
 import { prisma } from "../../lib/prisma";
 import { UserStatus } from "../../../../prisma/generated/prisma/enums";
+import ApiError from "../../errors/ApiError";
 
 const login = async (payload: { email: string; password: string }) => {
   const user = await prisma.user.findUniqueOrThrow({
@@ -17,7 +18,7 @@ const login = async (payload: { email: string; password: string }) => {
     user.password
   );
   if (!isCorrectPassword) {
-    throw new Error("Password is incorrect!");
+    throw new ApiError("Password is incorrect!", 401);
   }
 
   const accessToken = jwtHelper.generateToken(
